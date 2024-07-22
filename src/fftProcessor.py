@@ -21,4 +21,13 @@ def save_fft_results_to_csv(fft_results, filename):
     df.to_csv(filename, index=False, header=False)
 
 
-
+def changeBinarytoFrequencyValues(binary_fft_results, n_samples, sample_rate):
+    freqs = np.fft.fftshift(np.fft.fftfreq(n_samples, 1 / sample_rate))
+    frequency_values = np.zeros_like(binary_fft_results, dtype=float)
+    
+    for idx, binary_fft_result in enumerate(binary_fft_results):
+        for i in range(n_samples):
+            if binary_fft_result[i] == 1:
+                frequency_values[idx, i] = freqs[i] / 1e6
+    
+    return frequency_values
