@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import numpy as np
 
 def plotSpectrogram(iq_samples, sample_rate, nfft=4096, cmap='viridis'):
     """
@@ -10,7 +11,12 @@ def plotSpectrogram(iq_samples, sample_rate, nfft=4096, cmap='viridis'):
     nfft (int): The number of points in each FFT. Default is 4096.
     cmap (str): The colormap to use for the spectrogram. Default is 'viridis'.
     """
-    plt.specgram(iq_samples, NFFT=nfft, Fs=sample_rate/1e6, noverlap=nfft//2, cmap=cmap)
+    plt.specgram(iq_samples, NFFT=nfft, Fs=sample_rate, noverlap=nfft//2, cmap=cmap)
+    
+    # Convert frequency axis to MHz
+    ax = plt.gca()
+    y_labels = ax.get_yticks()
+    ax.set_yticklabels(y_labels / 1e6)
     
     # Set plot labels and title
     plt.xlabel("Time [s]")
