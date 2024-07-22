@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from src.fftProcessor import getFFT
 
 def plotSpectrogram(iq_samples, sample_rate, nfft=4096, cmap='viridis'):
     """
@@ -24,3 +25,24 @@ def plotSpectrogram(iq_samples, sample_rate, nfft=4096, cmap='viridis'):
     plt.title("Waterfall Spectrogram of IQ Samples")
     plt.colorbar(label="Intensity [dB]")
     plt.show()
+
+
+def plotIQdata(iq_samples):
+    # Compute the magnitude of the complex samples
+    magnitude = np.abs(iq_samples)
+    
+    # Plot the magnitude vs time
+    plt.plot(magnitude)
+    plt.xlabel("Sample Index")
+    plt.ylabel("Amplitude")
+    plt.title("Time Domain Amplitude of IQ Samples")
+    plt.show()
+
+
+def plotFFT(i, samples, sample_rate, n_samples):
+    spect, freqs = getFFT(i, samples, sample_rate, n_samples)
+    plt.plot(freqs, spect)
+    plt.xlabel("Frequency [MHz]")
+    plt.ylabel("Amplitude [dB]")
+    plt.show()
+    
