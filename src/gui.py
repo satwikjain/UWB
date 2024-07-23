@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from src.fftProcessor import getFFT
+from src.fftProcessor import getFFTMagnitude
 
 def plotSpectrogram(iq_samples, sample_rate, nfft=4096, cmap='viridis'):
     """
@@ -40,7 +40,8 @@ def plotIQdata(iq_samples):
 
 
 def plotFFT(i, samples, sample_rate, n_samples):
-    spect, freqs = getFFT(i, samples, sample_rate, n_samples)
+    spect = getFFTMagnitude(i, samples, sample_rate, n_samples)
+    freqs = np.fft.fftshift(np.fft.fftfreq(n_samples, 1 / sample_rate))
     plt.plot(freqs, spect)
     plt.xlabel("Frequency [MHz]")
     plt.ylabel("Amplitude [dB]")

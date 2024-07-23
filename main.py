@@ -1,30 +1,27 @@
 from src.dataLoader import load_iq_samples
 from src.gui import plotSpectrogram, plotIQdata, plotFFT
-from src.fftProcessor import process_iq_samples, save_fft_results_to_csv, changeBinarytoFrequencyValues
+from src.fftProcessor import process_iq_samples, save_fft_results_to_csv, getPeakFrequencyArrays
 
 # File path and parameters
 file_path = './data/output.csv'
-sample_rate = 50e6
+sample_rate = int(50e6)
 nfft = 4096
+threshold = 87
 
 # Load IQ samples
 iq_samples = load_iq_samples(file_path)
 
-# Plot the spectrogram
-# plotSpectrogram(iq_samples, sample_rate, nfft)
-
 plotIQdata(iq_samples)
 
+# plotFFT(4, iq_samples, sample_rate, nfft)
 
-plotFFT(6, iq_samples, int(50e6), 4096)
+fft_results = process_iq_samples(iq_samples, sample_rate, nfft)
 
-# Process the IQ samples in chunks and get the FFT results
-fft_results = process_iq_samples(iq_samples, sample_rate, 4096)
+peakFrequencyArray = getPeakFrequencyArrays(threshold, fft_results, nfft, sample_rate)
 
-binary_fft_results = changeBinarytoFrequencyValues(fft_results, 4096, 50e6)
-# Save the binary FFT results to a CSV file
-csv_filename = './data/binary_fft_output.csv'
-save_fft_results_to_csv(binary_fft_results, csv_filename)
+for currentArray in peakFrequencyArray:
+    print(currentArray)
 
-# Optionally, print the binary FFT results
-print(binary_fft_results)
+csv_filename = './data/peakFrequencyArray.csv'
+save_fft_results_to_csv(peakFrequencyArray, csv_filename)
+
