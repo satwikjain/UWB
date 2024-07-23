@@ -1,6 +1,7 @@
 from src.dataLoader import load_iq_samples
 from src.gui import plotSpectrogram, plotIQdata, plotFFT
-from src.fftProcessor import process_iq_samples, save_fft_results_to_csv, getPeakFrequencyArrays
+from src.fftProcessor import process_iq_samples, save_fft_results_to_csv
+from src.frequencyDetector import getPeakFrequencyArrays, getCentreFrequencies
 
 # File path and parameters
 file_path = './data/output.csv'
@@ -11,17 +12,15 @@ threshold = 87
 # Load IQ samples
 iq_samples = load_iq_samples(file_path)
 
-plotIQdata(iq_samples)
+# plotIQdata(iq_samples)
 
 # plotFFT(4, iq_samples, sample_rate, nfft)
 
 fft_results = process_iq_samples(iq_samples, sample_rate, nfft)
 
-peakFrequencyArray = getPeakFrequencyArrays(threshold, fft_results, nfft, sample_rate)
+frequenciesAboveThreshold, fftModifiedResults = getPeakFrequencyArrays(threshold, fft_results, nfft, sample_rate)
 
-for currentArray in peakFrequencyArray:
-    print(currentArray)
+print(getCentreFrequencies(1, frequenciesAboveThreshold))
 
 csv_filename = './data/peakFrequencyArray.csv'
-save_fft_results_to_csv(peakFrequencyArray, csv_filename)
-
+save_fft_results_to_csv(fftModifiedResults, csv_filename)
