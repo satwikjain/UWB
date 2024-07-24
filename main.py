@@ -1,7 +1,9 @@
 from src.dataLoader import load_iq_samples
 from src.gui import plotSpectrogram, plotIQdata, plotFFT
 from src.fftProcessor import process_iq_samples, save_fft_results_to_csv
-from src.frequencyDetector import getPeakFrequencyArrays, getCentreFrequencies
+from src.frequencyDetector import getFrequencyAboveThreshold, getCentreFrequencies
+from src.pulseAnalysis import group_frequencies
+
 
 # File path and parameters
 file_path = './data/output.csv'
@@ -18,9 +20,12 @@ iq_samples = load_iq_samples(file_path)
 
 fft_results = process_iq_samples(iq_samples, sample_rate, nfft)
 
-frequenciesAboveThreshold, fftModifiedResults = getPeakFrequencyArrays(threshold, fft_results, nfft, sample_rate)
+frequenciesAboveThreshold, fftModifiedResults = getFrequencyAboveThreshold(threshold, fft_results, nfft, sample_rate)
 
-print(getCentreFrequencies(1, frequenciesAboveThreshold))
+centerFrequencies = getCentreFrequencies(1, frequenciesAboveThreshold)
 
-csv_filename = './data/peakFrequencyArray.csv'
-save_fft_results_to_csv(fftModifiedResults, csv_filename)
+a = group_frequencies(fftModifiedResults, centerFrequencies)
+
+print(a)
+# csv_filename = './data/peakFrequencyArray.csv'
+# save_fft_results_to_csv(fftModifiedResults, csv_filename)

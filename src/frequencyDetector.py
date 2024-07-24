@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def getPeakFrequencyArrays(threshold, fft_results, n_samples, sample_rate):
+def getFrequencyAboveThreshold(threshold: float, fft_results: list, n_samples, sample_rate):
     freqs = np.fft.fftshift(np.fft.fftfreq(n_samples, 1 / sample_rate))
     frequenciesAboveThreshold = []
     for fft_row in fft_results:
@@ -14,7 +14,7 @@ def getPeakFrequencyArrays(threshold, fft_results, n_samples, sample_rate):
     return frequenciesAboveThreshold, fft_results
 
 
-def getCentreFrequencies(threshold, frequenciesAboveThreshold):
+def getCentreFrequencies(threshold: int, frequenciesAboveThreshold: list):
     centreFrequencies = []
     sorted_frequencies = np.sort(frequenciesAboveThreshold)
     
