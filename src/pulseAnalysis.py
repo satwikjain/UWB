@@ -25,7 +25,7 @@ def group_frequencies(arr, center_frequencies, threshold=1e6):
     return a
 
 
-def getPulseWidth(positionForCentreFreq, n_samples, sample_rate):
+def getPulseWidthAndDuration(positionForCentreFreq, n_samples, sample_rate):
     """
     Calculate the pulse width for each center frequency.
 
@@ -38,22 +38,23 @@ def getPulseWidth(positionForCentreFreq, n_samples, sample_rate):
     list: Pulse width for each center frequency in Micro Second.
     """
     pulseWidthForCentreFreq = []
+    factor = (n_samples / sample_rate) * 1e3
     for currentCentreFreq in positionForCentreFreq:
         maxi = 0
         currentPosition = currentCentreFreq[0]
         count = 1
+        pulseDuration = 1
         for i in range(1, len(currentCentreFreq)):
             if currentCentreFreq[i] == currentPosition + 1:
                 count += 1
-                maxi = max(maxi, count)
+                if maxi < count:
+                    maxi = count
+                    si = currentCentreFreq[i - maxi]
+                    ei = currentCentreFreq[i + 1]
+                    pulseDuration = ei - si
             else:
                 count = 1
             currentPosition = currentCentreFreq[i]
-        pulseWidthForCentreFreq.append(maxi)
-    
-    factor = (n_samples / sample_rate) * 1e6
-    
-    # Multiply each element in pulseWidthForCentreFreq by the factor to calculate Time of PulseWidth in Micro Second
-    pulseWidthForCentreFreq = [width * factor for width in pulseWidthForCentreFreq]
+        pulseWidthForCentreFreq.append((maxi * factor, pulseDuration * factor))
     
     return pulseWidthForCentreFreq

@@ -47,3 +47,21 @@ def plotFFT(i, samples, sample_rate, n_samples):
     plt.ylabel("Amplitude [dBm]")
     plt.show()
     
+    
+def print_detected_frequencies(center_frequencies, pulse_width_and_duration, power_at_center_freq):
+    # Number of frequencies detected
+    num_frequencies = len(center_frequencies)
+
+    # Print formatted output
+    print(f"{num_frequencies} Frequency Detected")
+
+    for i in range(num_frequencies):
+        freq = center_frequencies[i]
+        pulse_width, duration = pulse_width_and_duration[i]
+        power = power_at_center_freq[i]
+        duty_cycle = (pulse_width / duration) * 100
+
+        print(f"\nAt Frequency {freq} MHz")
+        print(f"Pulse Width = {pulse_width:.2f} msec")
+        print(f"Duty Cycle = {duty_cycle:.2f} %")
+        print(f"Power = {power:.4f} dBm")
