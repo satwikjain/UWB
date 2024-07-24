@@ -23,3 +23,21 @@ def group_frequencies(arr, center_frequencies, threshold=1e6):
                     a[p].append(j)
 
     return a
+
+
+def getPulseWidth(positionForCentreFreq):
+    pulseWidthForCentreFreq = []
+    for currentCentreFreq in positionForCentreFreq:
+        maxi = 0
+        currentPosition = currentCentreFreq[0]
+        count = 1
+        for i in range(1, len(currentCentreFreq)):
+            if currentCentreFreq[i] == currentPosition + 1:
+                count += 1
+                maxi = max(maxi, count)
+            else:
+                count = 1
+            currentPosition = currentCentreFreq[i]
+        pulseWidthForCentreFreq.append(maxi)
+    return pulseWidthForCentreFreq
+                
