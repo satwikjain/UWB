@@ -1,7 +1,7 @@
 from src.dataLoader import load_iq_samples
 from src.gui import plotSpectrogram, plotIQdata, plotFFT
 from src.fftProcessor import process_iq_samples, save_fft_results_to_csv
-from src.frequencyDetector import getFrequencyAboveThreshold, getCentreFrequencies
+from src.frequencyDetector import getFrequencyAboveThreshold, getCentreFrequencies, getPowerAtCentreFreqs
 from src.pulseAnalysis import group_frequencies, getPulseWidth
 
 
@@ -9,7 +9,7 @@ from src.pulseAnalysis import group_frequencies, getPulseWidth
 file_path = './data/output.csv'
 sample_rate = int(50e6)
 nfft = 4096
-threshold = 87
+threshold = 80
 
 # Load IQ samples
 iq_samples = load_iq_samples(file_path)
@@ -17,7 +17,8 @@ iq_samples = load_iq_samples(file_path)
 # plotSpectrogram(iq_samples, sample_rate, nfft=4096, cmap='viridis')
 # plotIQdata(iq_samples)
 
-# plotFFT(4, iq_samples, sample_rate, nfft)
+
+# plotFFT(6, iq_samples, sample_rate, nfft)
 
 fft_results = process_iq_samples(iq_samples, sample_rate, nfft)
 
@@ -27,8 +28,14 @@ centerFrequencies = getCentreFrequencies(1, frequenciesAboveThreshold)
 
 positionForCentreFreq = group_frequencies(fftModifiedResults, centerFrequencies)
 
-pulseWidth = getPulseWidth(positionForCentreFreq)
+pulseWidth = getPulseWidth(positionForCentreFreq, nfft, sample_rate)
 
+powerAtCentreFreq = getPowerAtCentreFreqs(centerFrequencies, fft_results, sample_rate, nfft)
+
+print(centerFrequencies)
 print(pulseWidth)
+print(powerAtCentreFreq)
+
+
 # csv_filename = './data/peakFrequencyArray.csv'
 # save_fft_results_to_csv(fftModifiedResults, csv_filename)

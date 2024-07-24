@@ -42,8 +42,8 @@ def plotIQdata(iq_samples):
 def plotFFT(i, samples, sample_rate, n_samples):
     spect = getFFTMagnitude(i, samples, sample_rate, n_samples)
     freqs = np.fft.fftshift(np.fft.fftfreq(n_samples, 1 / sample_rate))
-    plt.plot(freqs, spect)
+    plt.plot(freqs/1e6, spect)
     plt.xlabel("Frequency [MHz]")
-    plt.ylabel("Amplitude [dB]")
+    plt.ylabel("Amplitude [dBm]")
     plt.show()
     
