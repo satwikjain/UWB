@@ -18,7 +18,7 @@ iq_samples = load_iq_samples(file_path)
 # plotIQdata(iq_samples)
 
 
-plotFFT(6, iq_samples, sample_rate, nfft)
+# plotFFT(6, iq_samples, sample_rate, nfft)
 
 fft_results = process_iq_samples(iq_samples, sample_rate, nfft)
 
