@@ -38,7 +38,7 @@ def getPulseWidthAndDuration(positionForCentreFreq, n_samples, sample_rate):
     list: Pulse width for each center frequency in Micro Second.
     """
     pulseWidthForCentreFreq = []
-    factor = (n_samples / sample_rate) * 1e3
+    factor = (len(np.hamming(256)) / sample_rate) * 1e3
     for currentCentreFreq in positionForCentreFreq:
         maxi = 0
         currentPosition = currentCentreFreq[0]

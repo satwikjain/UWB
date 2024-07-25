@@ -9,12 +9,12 @@ from src.pulseAnalysis import group_frequencies, getPulseWidthAndDuration
 file_path = './data/output.csv'
 sample_rate = int(50e6)
 nfft = 4096
-threshold = 70
+threshold = 85
 
 # Load IQ samples
 iq_samples = load_iq_samples(file_path)
 
-plotSpectrogram(iq_samples, sample_rate, nfft=4096, cmap='viridis')
+# plotSpectrogram(iq_samples, sample_rate, nfft=4096, cmap='viridis')
 # plotIQdata(iq_samples)
 
 
